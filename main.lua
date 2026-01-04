@@ -9,7 +9,7 @@ local Tabs = { Main = Window:AddTab('Main'), Character = Window:AddTab('Characte
 local GunMods = Tabs.Main:AddRightGroupbox('Gun Mods')
 local KillAura = Tabs.Main:AddRightGroupbox('Combat')
 
-game.Players.LocalPlayer.Character.Humanoid.Health = 0
+--game.Players.LocalPlayer.Character.Humanoid.Health = 0
 
 local MenuGroup = Tabs['UI Settings']:AddLeftGroupbox('Menu')
 
