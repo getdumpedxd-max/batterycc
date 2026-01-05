@@ -18,6 +18,11 @@ local Players = game:GetService('Players')
 local ReplicatedStorage = game:GetService('ReplicatedStorage')
 local RunService = game:GetService("RunService")
 local UserInputService = game:GetService("UserInputService")
+--// Theme
+getgenv().Theme = {
+    Accent = Color3.fromRGB(70, 120, 255), -- default blue
+    Glow = true,
+}
 
 
 local lockedTarget = nil
