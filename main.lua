@@ -19,10 +19,10 @@ local ReplicatedStorage = game:GetService('ReplicatedStorage')
 local RunService = game:GetService("RunService")
 local UserInputService = game:GetService("UserInputService")
 --// Theme
-getgenv().Theme = {
-    Accent = Color3.from(255, 76, 21), -- default blue
-    Glow = true,
-}
+getgenv().Theme = getgenv().Theme or {}
+
+getgenv().Theme.Accent = Color3.fromRGB(255, 0, 0) -- RED
+getgenv().Theme.Glow = true
 
 
 local lockedTarget = nil
@@ -4644,11 +4644,11 @@ end)
 
 
 
-ThemeManager:SetLibrary(Library)
+Manager:SetLibrary(Library)
 SaveManager:SetLibrary(Library)
-SaveManager:IgnoreThemeSettings()
+SaveManager:IgnoreSettings()
 SaveManager:SetIgnoreIndexes({ 'MenuKeybind' })
-ThemeManager:SetFolder('MaddieHack')
+Manager:SetFolder('MaddieHack')
 SaveManager:SetFolder('MaddieHack/configs')
 SaveManager:BuildConfigSection(Tabs['UI Settings'])
 ThemeManager:ApplyToTab(Tabs['UI Settings'])
