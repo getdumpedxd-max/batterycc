@@ -1,4 +1,4 @@
--- https://discord.gg/UgQAPcBtpy
+print("BATTERY START")
 
 local repo = 'https://raw.githubusercontent.com/violin-suzutsuki/LinoriaLib/main/'
 
