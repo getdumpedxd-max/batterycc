@@ -5,6 +5,12 @@ local Library = loadstring(game:HttpGet(repo .. 'Library.lua'))()
 local ThemeManager = loadstring(game:HttpGet(repo .. 'addons/ThemeManager.lua'))()
 local SaveManager = loadstring(game:HttpGet(repo .. 'addons/SaveManager.lua'))()
 local Window = Library:CreateWindow({ Title = '                      Battery.cc                      ', AutoShow = true, TabPadding = 15, MenuFadeTime = 0.2 })
+ThemeManager:SetLibrary(Library)
+
+-- Purple ↔ Blue accent
+ThemeManager:SetThemeColor(Enum.StudioStyleGuideColor.Selection, Color3.fromRGB(130, 90, 255))
+ThemeManager:SetThemeColor(Enum.StudioStyleGuideColor.MainButton, Color3.fromRGB(0, 180, 255))
+ThemeManager:SetThemeColor(Enum.StudioStyleGuideColor.Button, Color3.fromRGB(90, 120, 255))
 local Tabs = { Main = Window:AddTab('Main'), Character = Window:AddTab('Character'), Visuals = Window:AddTab('Visuals'), Misc = Window:AddTab('Misc'), Players = Window:AddTab('Players'), ['UI Settings'] = Window:AddTab('UI Settings') }
 local GunMods = Tabs.Main:AddRightGroupbox('Gun Mods')
 local KillAura = Tabs.Main:AddRightGroupbox('Combat')
