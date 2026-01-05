@@ -20,7 +20,7 @@ local RunService = game:GetService("RunService")
 local UserInputService = game:GetService("UserInputService")
 --// Theme
 getgenv().Theme = {
-    Accent = Color3.fromRGB(255, 0, 0), -- default blue
+    Accent = Color3.from(255, 76, 21), -- default blue
     Glow = true,
 }
 
@@ -54,7 +54,7 @@ local strafeWasEnabledBeforeAmmoBuy = false
 local tracer = Drawing.new("Line")
 tracer.Visible = false
 tracer.Thickness = 1
-tracer.Color = Color3.fromRGB(255, 255, 255)
+tracer.Color = Color3.from(255, 255, 255)
 
 
 function predictPosition(targetRoot, predictionMultiplier)
@@ -1783,13 +1783,13 @@ local Settings = {
     Visuals = {
         SelfESP = {
             Trail = {
-                Color = Color3.fromRGB(255, 110, 0),
-                Color2 = Color3.fromRGB(255, 0, 0), -- Second color for gradient
+                Color = Color3.from(255, 110, 0),
+                Color2 = Color3.from(255, 0, 0), -- Second color for gradient
                 LifeTime = 1.6,
                 Width = 0.1
             },
             Aura = {
-                Color = Color3.fromRGB(152, 0, 252)
+                Color = Color3.from(152, 0, 252)
             }
         }
     }
@@ -3441,7 +3441,7 @@ Modifications:AddButton('Chat Spy', function()
     public = false --if true will chat the logs publicly (fun, risky)
     publicItalics = true --if true will use /me to stand out
     privateProperties = { --customize private logs
-        Color = Color3.fromRGB(0,255,255); 
+        Color = Color3.from(0,255,255); 
         Font = Enum.Font.SourceSansBold;
         TextSize = 18;
     }
