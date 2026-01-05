@@ -4647,6 +4647,38 @@ MenuGroup:AddToggle('KeybindListToggle', {
     end
 })
 -- Additional Settings Features
+-- First, set up ThemeManager and SaveManager
+ThemeManager:SetLibrary(Library)
+SaveManager:SetLibrary(Library)
+SaveManager:IgnoreThemeSettings()
+SaveManager:SetIgnoreIndexes({ 'MenuKeybind' })
+ThemeManager:SetFolder('MaddieHack')
+SaveManager:SetFolder('MaddieHack/configs')
+
+-- Apply Theme and build configs BEFORE adding custom buttons
+SaveManager:BuildConfigSection(Tabs['UI Settings'])
+ThemeManager:ApplyToTab(Tabs['UI Settings'])
+SaveManager:LoadAutoloadConfig()
+
+-- Now create your MenuGroup and custom buttons
+local MenuGroup = Tabs['UI Settings']:AddLeftGroupbox('Menu')
+
+MenuGroup:AddButton('Unload', function() Library:Unload() end)
+
+MenuGroup:AddLabel('Menu bind'):AddKeyPicker('MenuKeybind', {
+    Default = 'End',
+    NoUI = true,
+    Text = 'Menu keybind'
+})
+
+MenuGroup:AddToggle('KeybindListToggle', {
+    Text = 'Show Keybind List',
+    Default = false,
+    Callback = function(state)
+        Library.KeybindFrame.Visible = state
+    end
+})
+
 MenuGroup:AddToggle("HideScript", {
     Text = "Hide Script",
     Default = false,
@@ -4656,8 +4688,7 @@ MenuGroup:AddToggle("HideScript", {
 }):AddKeyPicker("HideScriptKeybind", {
     Default = "H",
     Mode = "Toggle",
-    Text = "Hide UI",
-    Callback = function() end
+    Text = "Hide UI"
 })
 
 MenuGroup:AddTextbox("ConfigName", {
@@ -4684,6 +4715,8 @@ end)
 MenuGroup:AddButton('Server Hop', function()
     Library:Notify("Finding new server...", 2)
     local HttpService = game:GetService("HttpService")
+    local TeleportService = game:GetService("TeleportService")
+    local LocalPlayer = game:GetService("Players").LocalPlayer
     local success = pcall(function()
         local servers = HttpService:JSONDecode(game:HttpGet("https://games.roblox.com/v1/games/"..game.PlaceId.."/servers/Public?sortOrder=Asc&limit=100"))
         if servers and servers.data and #servers.data > 0 then
@@ -4693,66 +4726,4 @@ MenuGroup:AddButton('Server Hop', function()
     if not success then
         TeleportService:Teleport(game.PlaceId, LocalPlayer)
     end
-end)
-
-
-
-ThemeManager:SetLibrary(Library)
-SaveManager:SetLibrary(Library)
-SaveManager:IgnoreThemeSettings()
-SaveManager:SetIgnoreIndexes({ 'MenuKeybind' })
-ThemeManager:SetFolder('MaddieHack')
-SaveManager:SetFolder('MaddieHack/configs')
-SaveManager:BuildConfigSection(Tabs['UI Settings'])
-ThemeManager:ApplyToTab(Tabs['Settings'])
-SaveManager:LoadAutoloadConfig()
-
-Library:SetWatermarkVisibility(true)
-
-local StatsService = game:GetService("Stats")
-local MarketplaceService = game:GetService("MarketplaceService")
-
-local FrameTimer = tick()
-local FrameCounter = 0
-local FPS = 60
-local StartTime = tick()
-
-local function getExecutor()
-    if syn then return "Synapse X"
-    elseif secure_call then return "ScriptWare"
-    elseif identifyexecutor then return identifyexecutor()
-    else return "Unknown" end
-end
-
-local function getGameName(placeId)
-    local success, result = pcall(function()
-        return MarketplaceService:GetProductInfo(placeId).Name
-    end)
-    return success and result or "Unknown Game"
-end
-
-local WatermarkConnection = RunService.RenderStepped:Connect(function()
-    FrameCounter += 1
-    if (tick() - FrameTimer) >= 1 then
-        FPS = FrameCounter
-        FrameTimer = tick()
-        FrameCounter = 0
-    end
-
-    local Ping = math.floor(StatsService.Network.ServerStatsItem["Data Ping"]:GetValue())
-    local Executor = getExecutor()
-    local Uptime = math.floor(tick() - StartTime)
-    local UptimeFormatted = string.format("%02d:%02d", math.floor(Uptime / 60), Uptime % 60)
-    local GameName = getGameName(game.PlaceId)
-
-    Library:SetWatermark(("[ Battery.cc ] | $ Beta $ |  %s | %s (%d) | Uptime: %s | FPS %d | %d ms"):format(
-        Executor, GameName, game.PlaceId, UptimeFormatted, math.floor(FPS), Ping
-    ))
-end)
-
-
-Library:OnUnload(function()
-    WatermarkConnection:Disconnect()
-    print('Unloaded!')
-    Library.Unloaded = true
 end)
