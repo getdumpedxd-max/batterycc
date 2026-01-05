@@ -1,17 +1,14 @@
 -- https://discord.gg/UgQAPcBtpy
 
 local repo = 'https://raw.githubusercontent.com/violin-suzutsuki/LinoriaLib/main/'
+
 local Library = loadstring(game:HttpGet(repo .. 'Library.lua'))()
 local ThemeManager = loadstring(game:HttpGet(repo .. 'addons/ThemeManager.lua'))()
 local SaveManager = loadstring(game:HttpGet(repo .. 'addons/SaveManager.lua'))()
-local Window = Library:CreateWindow({ Title = '                     $ Battery.cc | Beta $                     ', AutoShow = true, TabPadding = 15, MenuFadeTime = 0.2 })
-local Tabs = { Main = Window:AddTab('Main'), Character = Window:AddTab('Character'), Visuals = Window:AddTab('Visuals'), Misc = Window:AddTab('Misc'), Players = Window:AddTab('Players'), ['UI Settings'] = Window:AddTab('UI Settings') }
-local GunMods = Tabs.Main:AddRightGroupbox('Gun Mods')
-local KillAura = Tabs.Main:AddRightGroupbox('Combat')
+
 
 --game.Players.LocalPlayer.Character.Humanoid.Health = 0
 
-local MenuGroup = Tabs['UI Settings']:AddLeftGroupbox('Menu')
 
 local LocalPlayer = game:GetService('Players').LocalPlayer
 local Players = game:GetService('Players')
@@ -22,8 +19,34 @@ local UserInputService = game:GetService("UserInputService")
 Library.Theme.Accent = Color3.fromRGB(255, 0, 0)
 Library.Theme.Outline = Color3.fromRGB(255, 0, 0)
 Library.Theme.OutlineTransparency = 0
-
+ThemeManager:SetLibrary(Library)
+SaveManager:SetLibrary(Library)
+SaveManager:IgnoreThemeSettings()
+MenuGroup:AddKeybind('MenuKeybind', {
+    Default = 'RightShift',
+    NoUI = true,
+    Text = 'Menu key'
+})
 local Window = Library:CreateWindow({
+    Title = 'Battery.cc | Beta',
+    AutoShow = true,
+    TabPadding = 15,
+    MenuFadeTime = 0.2
+})
+local Tabs = {
+    Main = Window:AddTab('Main'),
+    Character = Window:AddTab('Character'),
+    Visuals = Window:AddTab('Visuals'),
+    Misc = Window:AddTab('Misc'),
+    Players = Window:AddTab('Players'),
+    ['UI Settings'] = Window:AddTab('UI Settings')
+}
+local MenuGroup = Tabs['UI Settings']:AddLeftGroupbox('Menu')
+ThemeManager:ApplyToTab(Tabs['UI Settings'])
+SaveManager:BuildConfigSection(Tabs['UI Settings'])
+ThemeManager:BuildThemeSection(Tabs['UI Settings'])
+
+
 
 
 local lockedTarget = nil
