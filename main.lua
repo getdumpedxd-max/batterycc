@@ -19,7 +19,11 @@ local Tabs = {
     ['UI Settings'] = Window:AddTab('UI Settings')
 }
 
-local KillAura = Tabs.Main:AddRightGroupbox('Combat')
+local KillAura = Tabs.Main:AddLeftGroupbox('Combat')
+KillAura:AddToggle('Test', {
+    Text = 'Test Toggle',
+    Default = true,
+})
 
 --game.Players.LocalPlayer.Character.Humanoid.Health = 0
 
