@@ -18,11 +18,12 @@ local Players = game:GetService('Players')
 local ReplicatedStorage = game:GetService('ReplicatedStorage')
 local RunService = game:GetService("RunService")
 local UserInputService = game:GetService("UserInputService")
---// Theme
-getgenv().Theme = getgenv().Theme or {}
+--// Theme (MUST be before CreateWindow)
+Library.Theme.Accent = Color3.fromRGB(255, 0, 0)
+Library.Theme.Outline = Color3.fromRGB(255, 0, 0)
+Library.Theme.OutlineTransparency = 0
 
-getgenv().Theme.Accent = Color3.fromRGB(255, 0, 0) -- RED
-getgenv().Theme.Glow = true
+local Window = Library:CreateWindow({
 
 
 local lockedTarget = nil
