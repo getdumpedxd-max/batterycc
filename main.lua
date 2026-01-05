@@ -4,7 +4,7 @@ local repo = 'https://raw.githubusercontent.com/violin-suzutsuki/LinoriaLib/main
 local Library = loadstring(game:HttpGet(repo .. 'Library.lua'))()
 local ThemeManager = loadstring(game:HttpGet(repo .. 'addons/ThemeManager.lua'))()
 local SaveManager = loadstring(game:HttpGet(repo .. 'addons/SaveManager.lua'))()
-local Window = Library:CreateWindow({ Title = '                     $ Mad.lol | Beta $                     ', AutoShow = true, TabPadding = 15, MenuFadeTime = 0.2 })
+local Window = Library:CreateWindow({ Title = '                     $ Battery.cc | Beta $                     ', AutoShow = true, TabPadding = 15, MenuFadeTime = 0.2 })
 local Tabs = { Main = Window:AddTab('Main'), Character = Window:AddTab('Character'), Visuals = Window:AddTab('Visuals'), Misc = Window:AddTab('Misc'), Players = Window:AddTab('Players'), ['UI Settings'] = Window:AddTab('UI Settings') }
 local GunMods = Tabs.Main:AddRightGroupbox('Gun Mods')
 local KillAura = Tabs.Main:AddRightGroupbox('Combat')
@@ -590,7 +590,7 @@ local killSayMessages = {
     "is a free script and u die to it..", 
     "Must be hard without", 
     "Why aim when does it for you?",
-    "Bros not on mad.lol already 😂",
+    "Bros not on Battery.cc already 😂",
     "Cant be me icl",
     "cant win a hvh? maybe try ",
     "if u wanna win hop in",
@@ -2499,10 +2499,10 @@ function toggleDesync(state)
     desync.enabled = state
     if desync.enabled then
         workspace.CurrentCamera.CameraSubject = desync_setback
-        Library:Notify("Desync Enabled '" .. desync.mode .. "' Mad.lol $", 2)
+        Library:Notify("Desync Enabled '" .. desync.mode .. "' Battery.cc $", 2)
     else
         resetCamera()
-        Library:Notify("Desync Disabled '" .. desync.mode .. "' Mad.lol  $", 2)
+        Library:Notify("Desync Disabled '" .. desync.mode .. "' Battery.cc  $", 2)
     end
 end
 
@@ -3421,7 +3421,7 @@ local webhook = Modifications:AddButton('Redeem Codes', function()
 
    for _, code in pairs(codes) do
        mainEvent:FireServer("EnterPromoCode", code)
-       Library:Notify("Trying code: " .. code .. " mad.lol | Private", 5)
+       Library:Notify("Trying code: " .. code .. " Battery.cc | Private", 5)
        task.wait(4.2)
    end
 end)
@@ -4221,7 +4221,7 @@ getgenv().PlayerActions:AddButton('Execute Action', function()
                 voidTarget(targetPlayer)
             end
         else
-            Library:Notify("Equip a tool to use this function. | Mad.lol", 5)
+            Library:Notify("Equip a tool to use this function. | Battery.cc", 5)
         end
     end
 end)
@@ -4687,7 +4687,7 @@ local WatermarkConnection = RunService.RenderStepped:Connect(function()
     local UptimeFormatted = string.format("%02d:%02d", math.floor(Uptime / 60), Uptime % 60)
     local GameName = getGameName(game.PlaceId)
 
-    Library:SetWatermark(("[ Mad.lol ] | $ Beta $ |  %s | %s (%d) | Uptime: %s | FPS %d | %d ms"):format(
+    Library:SetWatermark(("[ Battery.cc ] | $ Beta $ |  %s | %s (%d) | Uptime: %s | FPS %d | %d ms"):format(
         Executor, GameName, game.PlaceId, UptimeFormatted, math.floor(FPS), Ping
     ))
 end)
