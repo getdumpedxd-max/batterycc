@@ -4646,6 +4646,40 @@ MenuGroup:AddToggle('KeybindListToggle', {
         Library.KeybindFrame.Visible = state
     end
 })
+-- Additional Settings Features
+MenuGroup:AddToggle("HideScript", {
+    Text = "Hide Script",
+    Default = false,
+    Callback = function(Value)
+        Library:Hide(Value)
+    end
+}):AddKeyPicker("HideScriptKeybind", {
+    Default = "H",
+    Mode = "Toggle",
+    Text = "Hide UI",
+    Callback = function() end
+})
+
+MenuGroup:AddTextbox("ConfigName", {
+    Text = "Config Name",
+    Default = "MyConfig",
+    Placeholder = "Enter config name",
+    Callback = function(Value)
+        _G.ConfigName = Value
+    end
+})
+
+MenuGroup:AddButton("Save Config", function()
+    if _G.ConfigName then
+        SaveManager:Save(_G.ConfigName)
+    end
+end)
+
+MenuGroup:AddButton("Load Config", function()
+    if _G.ConfigName then
+        SaveManager:Load(_G.ConfigName)
+    end
+end)
 
 MenuGroup:AddButton('Server Hop', function()
     Library:Notify("Finding new server...", 2)
