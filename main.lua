@@ -2,31 +2,32 @@ print("BATTERY START")
 
 local repo = 'https://raw.githubusercontent.com/violin-suzutsuki/LinoriaLib/main/'
 
+-- Load libraries
 local Library = loadstring(game:HttpGet(repo .. 'Library.lua'))()
 local ThemeManager = loadstring(game:HttpGet(repo .. 'addons/ThemeManager.lua'))()
 local SaveManager = loadstring(game:HttpGet(repo .. 'addons/SaveManager.lua'))()
-
-
---game.Players.LocalPlayer.Character.Humanoid.Health = 0
-
 
 local LocalPlayer = game:GetService('Players').LocalPlayer
 local Players = game:GetService('Players')
 local ReplicatedStorage = game:GetService('ReplicatedStorage')
 local RunService = game:GetService("RunService")
 local UserInputService = game:GetService("UserInputService")
+
 --// Theme (MUST be before CreateWindow)
 Library.Theme.Accent = Color3.fromRGB(255, 0, 0)
 Library.Theme.Outline = Color3.fromRGB(255, 0, 0)
 Library.Theme.OutlineTransparency = 0
+
 ThemeManager:SetLibrary(Library)
 SaveManager:SetLibrary(Library)
+
 local Window = Library:CreateWindow({
     Title = 'Battery.cc | Beta',
     AutoShow = true,
     TabPadding = 15,
     MenuFadeTime = 0.2
 })
+
 local Tabs = {
     Main = Window:AddTab('Main'),
     Character = Window:AddTab('Character'),
@@ -35,14 +36,13 @@ local Tabs = {
     Players = Window:AddTab('Players'),
     ['UI Settings'] = Window:AddTab('UI Settings')
 }
+
 local MenuGroup = Tabs['UI Settings']:AddLeftGroupbox('Menu')
 ThemeManager:ApplyToTab(Tabs['UI Settings'])
 SaveManager:BuildConfigSection(Tabs['UI Settings'])
 ThemeManager:BuildThemeSection(Tabs['UI Settings'])
 
-
-
-
+-- Targeting Variables
 local lockedTarget = nil
 local StickyAimEnabled = false
 local HighlightEnabled = false
@@ -69,22 +69,31 @@ local spectateStrafeEnabled = false
 local AutoAmmoEnabled = false
 local strafeWasEnabledBeforeAmmoBuy = false
 
+-- Highlight & Tracer
+local targetHighlight = Instance.new("Highlight")
+targetHighlight.Parent = workspace
+targetHighlight.Adornee = nil
+targetHighlight.Enabled = false
+
 local tracer = Drawing.new("Line")
 tracer.Visible = false
 tracer.Thickness = 1
-tracer.Color = Color3.from(255, 255, 255)
+tracer.Color = Color3.fromRGB(255, 255, 255)
 
-
+-- Prediction Function
 function predictPosition(targetRoot, predictionMultiplier)
-    if not targetRoot then return targetRoot.Position end
+    if not targetRoot then return nil end
     if targetRoot.Velocity.Magnitude > 700 then
         return targetRoot.Position
     end
     return targetRoot.Position + (targetRoot.Velocity * predictionMultiplier)
 end
 
+-- Tabs & Groups
 local TargetingGroup = Tabs.Main:AddLeftGroupbox('Targeting')
+local Target = Tabs.Main:AddLeftGroupbox('Target')
 
+-- Sticky Aim Toggle
 TargetingGroup:AddToggle("StickyAim", {
     Text = "Sticky Aim",
     Default = false,
@@ -138,14 +147,15 @@ TargetingGroup:AddToggle("StickyAim", {
 
             if closestTarget then
                 lockedTarget = closestTarget
+                targetHighlight.Adornee = lockedTarget.Character
+                targetHighlight.Enabled = true
             end
         end
     end
 })
 
-local Target = Tabs.Main:AddLeftGroupbox('Target')
-
-maddieplsnomad = false
+-- Spectate Toggle
+local maddieplsnomad = false
 
 TargetingGroup:AddToggle("ViewTarget", {
     Text = "spectate",
@@ -173,6 +183,7 @@ TargetingGroup:AddToggle("ViewTarget", {
     end
 })
 
+-- Hit Part Dropdown
 TargetingGroup:AddDropdown("hp", {
     Text = "Hit Part",
     Values = {"Head", "HumanoidRootPart", "UpperTorso", "Left Arm", "Right Arm", "Left Leg", "Right Leg"},
@@ -182,6 +193,7 @@ TargetingGroup:AddDropdown("hp", {
     end
 })
 
+-- Strafe Toggle
 Target:AddToggle("StrafeToggle", {
     Text = "Target Strafe",
     Default = false,
@@ -198,6 +210,13 @@ Target:AddToggle("StrafeToggle", {
             end
             if oldPosition then
                 LocalPlayer.Character.HumanoidRootPart.CFrame = oldPosition
+                oldPosition = nil
+            end
+        end
+    end
+})
+
+print("BATTERY LOADED")
                 oldPosition = nil
             end
             workspace.CurrentCamera.CameraSubject = LocalPlayer.Character:FindFirstChild("Humanoid")
