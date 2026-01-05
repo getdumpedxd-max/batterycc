@@ -20,7 +20,7 @@ local RunService = game:GetService("RunService")
 local UserInputService = game:GetService("UserInputService")
 --// Theme
 getgenv().Theme = {
-    Accent = Color3.fromRGB(70, 120, 255), -- default blue
+    Accent = Color3.fromRGB(255, 0, 0), -- default blue
     Glow = true,
 }
 
