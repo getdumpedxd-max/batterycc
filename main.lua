@@ -4720,6 +4720,95 @@ ThemeManager:BuildThemeSection(Tabs['UI Settings'])
 
 -- 3️⃣ Now add your custom buttons
 local MenuGroup = Tabs['UI Settings']:AddLeftGroupbox('Menu')
+task.defer(function()
+    local MenuGroup = Tabs['UI Settings']:AddLeftGroupbox('Menu')
+
+    -- Unload button
+    MenuGroup:AddButton('Unload', function()
+        Library:Unload()
+    end)
+
+    -- Menu keybind picker
+    MenuGroup:AddLabel('Menu bind'):AddKeyPicker('MenuKeybind', {
+        Default = 'End',
+        NoUI = true,
+        Text = 'Menu keybind'
+    })
+
+    -- Keybind list toggle
+    MenuGroup:AddToggle('KeybindListToggle', {
+        Text = 'Show Keybind List',
+        Default = false,
+        Callback = function(state)
+            Library.KeybindFrame.Visible = state
+        end
+    })
+
+    -- Hide Script toggle
+    MenuGroup:AddToggle("HideScript", {
+        Text = "Hide Script",
+        Default = false,
+        Callback = function(Value)
+            Library:Hide(Value)
+        end
+    }):AddKeyPicker("HideScriptKeybind", {
+        Default = "H",
+        Mode = "Toggle",
+        Text = "Hide UI"
+    })
+
+    -- Config name textbox
+    MenuGroup:AddTextbox("ConfigName", {
+        Text = "Config Name",
+        Default = "MyConfig",
+        Placeholder = "Enter config name",
+        Callback = function(Value)
+            _G.ConfigName = Value
+        end
+    })
+
+    -- Save config button
+    MenuGroup:AddButton("Save Config", function()
+        if _G.ConfigName then
+            SaveManager:Save(_G.ConfigName)
+        end
+    end)
+
+    -- Load config button
+    MenuGroup:AddButton("Load Config", function()
+        if _G.ConfigName then
+            SaveManager:Load(_G.ConfigName)
+        end
+    end)
+
+    -- Server hop button
+    MenuGroup:AddButton('Server Hop', function()
+        Library:Notify("Finding new server...", 2)
+        local HttpService = game:GetService("HttpService")
+        local TeleportService = game:GetService("TeleportService")
+        local LocalPlayer = game:GetService("Players").LocalPlayer
+
+        local success = pcall(function()
+            local servers = HttpService:JSONDecode(
+                game:HttpGet(
+                    "https://games.roblox.com/v1/games/"
+                    .. game.PlaceId
+                    .. "/servers/Public?sortOrder=Asc&limit=100"
+                )
+            )
+            if servers and servers.data and #servers.data > 0 then
+                TeleportService:TeleportToPlaceInstance(
+                    game.PlaceId,
+                    servers.data[1].id,
+                    LocalPlayer
+                )
+            end
+        end)
+        if not success then
+            TeleportService:Teleport(game.PlaceId, LocalPlayer)
+        end
+    end)
+end)
 
 MenuGroup:AddButton('Unload', function() Library:Unload() end)
 
