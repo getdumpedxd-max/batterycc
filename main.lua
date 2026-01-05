@@ -21,7 +21,6 @@ Library.Theme.Outline = Color3.fromRGB(255, 0, 0)
 Library.Theme.OutlineTransparency = 0
 ThemeManager:SetLibrary(Library)
 SaveManager:SetLibrary(Library)
-SaveManager:IgnoreThemeSettings()
 MenuGroup:AddKeybind('MenuKeybind', {
     Default = 'RightShift',
     NoUI = true,
