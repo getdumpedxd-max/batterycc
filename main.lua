@@ -4647,7 +4647,7 @@ MenuGroup:AddToggle('KeybindListToggle', {
     end
 })
 -- Additional Settings Features
--- First, set up ThemeManager and SaveManager
+-- 1️⃣ Setup ThemeManager and SaveManager
 ThemeManager:SetLibrary(Library)
 SaveManager:SetLibrary(Library)
 SaveManager:IgnoreThemeSettings()
@@ -4655,12 +4655,12 @@ SaveManager:SetIgnoreIndexes({ 'MenuKeybind' })
 ThemeManager:SetFolder('MaddieHack')
 SaveManager:SetFolder('MaddieHack/configs')
 
--- Apply Theme and build configs BEFORE adding custom buttons
+-- 2️⃣ Build the config section & apply theme first
 SaveManager:BuildConfigSection(Tabs['UI Settings'])
 ThemeManager:ApplyToTab(Tabs['UI Settings'])
 SaveManager:LoadAutoloadConfig()
 
--- Now create your MenuGroup and custom buttons
+-- 3️⃣ Now add your custom buttons
 local MenuGroup = Tabs['UI Settings']:AddLeftGroupbox('Menu')
 
 MenuGroup:AddButton('Unload', function() Library:Unload() end)
