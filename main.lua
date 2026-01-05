@@ -20,6 +20,7 @@ Library.Theme.Accent = Color3.fromRGB(255, 0, 0)
 Library.Theme.Outline = Color3.fromRGB(255, 0, 0)
 Library.Theme.OutlineTransparency = 0
 ThemeManager:SetLibrary(Library)
+SaveManager:SetLibrary(Library)
 })
 local Window = Library:CreateWindow({
     Title = 'Battery.cc | Beta',
