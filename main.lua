@@ -4633,8 +4633,32 @@ MenuGroup:AddInput('JobIdInput', {
 })
 
 
-MenuGroup:AddButton('Rejoin Server', function()
-    game:GetService("TeleportService"):TeleportToPlaceInstance(game.PlaceId, game.JobId, game.Players.LocalPlayer)
+-- UI SETTINGS MENU
+local MenuGroup = Tabs['UI Settings']:AddLeftGroupbox('Menu')
+
+MenuGroup:AddButton('Unload', function() Library:Unload() end)
+MenuGroup:AddLabel('Menu bind'):AddKeyPicker('MenuKeybind', { Default = 'End', NoUI = true, Text = 'Menu keybind' })
+
+MenuGroup:AddToggle('KeybindListToggle', {
+    Text = 'Show Keybind List',
+    Default = false,
+    Callback = function(state)
+        Library.KeybindFrame.Visible = state
+    end
+})
+
+MenuGroup:AddButton('Server Hop', function()
+    Library:Notify("Finding new server...", 2)
+    local HttpService = game:GetService("HttpService")
+    local success = pcall(function()
+        local servers = HttpService:JSONDecode(game:HttpGet("https://games.roblox.com/v1/games/"..game.PlaceId.."/servers/Public?sortOrder=Asc&limit=100"))
+        if servers and servers.data and #servers.data > 0 then
+            TeleportService:TeleportToPlaceInstance(game.PlaceId, servers.data[1].id, LocalPlayer)
+        end
+    end)
+    if not success then
+        TeleportService:Teleport(game.PlaceId, LocalPlayer)
+    end
 end)
 
 
@@ -4646,7 +4670,7 @@ SaveManager:SetIgnoreIndexes({ 'MenuKeybind' })
 ThemeManager:SetFolder('MaddieHack')
 SaveManager:SetFolder('MaddieHack/configs')
 SaveManager:BuildConfigSection(Tabs['UI Settings'])
-ThemeManager:ApplyToTab(Tabs['UI Settings'])
+ThemeManager:ApplyToTab(Tabs['Settings'])
 SaveManager:LoadAutoloadConfig()
 
 Library:SetWatermarkVisibility(true)
